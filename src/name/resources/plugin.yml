@@ -1,0 +1,8 @@
+name: islandadds
+main: name.islandadds.islandadds
+version: "1.0.1"
+api:
+  - 1.0.9
+load: POSTWORLD
+author: name
+#本插件参考若水提供的PM版本制作
