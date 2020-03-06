@@ -2,16 +2,14 @@ package name.Obsidian_Restore.task;
 
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
-import cn.nukkit.scheduler.PluginTask;
+import cn.nukkit.scheduler.Task;
 import cn.nukkit.utils.TextFormat;
-import name.Obsidian_Restore.Obsidian_Restore;
 
-public class OR_task extends PluginTask {
+public class OR_task extends Task {
 
     private Player player;
 
-    public OR_task(Obsidian_Restore owner, Player player) {
-        super(owner);
+    public OR_task(Player player) {
         this.player = player;
     }
 

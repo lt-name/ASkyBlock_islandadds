@@ -28,7 +28,7 @@ public class Obsidian_Restore extends PluginBase implements Listener {
                 if(player.isSneaking()){
                     block.getLevel().setBlock(block,Block.get(0));
                     player.getInventory().removeItem(Item.get(325,0));
-                    this.getServer().getScheduler().scheduleDelayedTask(new OR_task(this, player),5);
+                    this.getServer().getScheduler().scheduleDelayedTask(new OR_task(player),5);
                 }
             }
         }
