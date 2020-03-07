@@ -48,6 +48,6 @@ public class Obsidian extends PluginBase implements Listener {
     }
 
     public int getWFWY() {
-        return this.config.getInt("高空流水判断格数",5);
+        return this.config.getInt("高空流水判断格数",3);
     }
 }

@@ -85,13 +85,15 @@ public class OB_Listener implements Listener {
             int x = event.getTo().getFloorX();
             int y = event.getTo().getFloorY();
             int z = event.getTo().getFloorZ();
-            boolean flag1,flag2;
-            if ((event.getTo().getLevel().getBlock(x,y+2,z).getName().contains("Water")) ||
-                    (event.getTo().getLevel().getBlock(x,y+2,z).getName().contains("Lava"))){
+            if ((event.getTo().getLevel().getBlock(x,y+Obsidian.getOB_config().getWFWY(),z).getName().contains("Water")) ||
+                    (event.getTo().getLevel().getBlock(x,y+Obsidian.getOB_config().getWFWY(),z).getName().contains("Lava"))){
                 event.setCancelled();
+                return;
             }
-            for (char i = 1; i <= Obsidian.getOB_config().getWFWY(); i++) {
-                if (event.getTo().getLevel().getBlock(x,y-i,z).getId() != 0) {
+            for (char i = 1; i < Obsidian.getOB_config().getWFWY(); i++) {
+                if ((event.getTo().getLevel().getBlock(x,y-i,z).getId() != 0) &&
+                        (!event.getTo().getLevel().getBlock(x,y-i,z).getName().contains("Water")) &&
+                        (!event.getTo().getLevel().getBlock(x,y-i,z).getName().contains("Lava"))) {
                     return;
                 }
             }
