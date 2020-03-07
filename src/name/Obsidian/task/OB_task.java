@@ -1,15 +1,15 @@
-package name.Obsidian_Restore.task;
+package name.Obsidian.task;
 
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
 import cn.nukkit.scheduler.Task;
 import cn.nukkit.utils.TextFormat;
 
-public class OR_task extends Task {
+public class OB_task extends Task {
 
     private Player player;
 
-    public OR_task(Player player) {
+    public OB_task(Player player) {
         this.player = player;
     }
 

@@ -1,6 +1,6 @@
-name: Obsidian_Restore
-main: name.Obsidian_Restore.Obsidian_Restore
-version: "1.0.2"
+name: Obsidian
+main: name.Obsidian.Obsidian
+version: "1.0.3"
 api:
   - 1.0.9
 load: POSTWORLD
