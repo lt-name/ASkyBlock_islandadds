@@ -14,6 +14,7 @@ import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockAir;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
+import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockUpdateEvent;
 import cn.nukkit.event.block.LeavesDecayEvent;
 import cn.nukkit.event.block.LiquidFlowEvent;
@@ -54,7 +55,6 @@ public class OB_Listener implements Listener {
         int y = block.getFloorY();
         int z = block.getFloorZ();
         Level level = block.getLevel();
-        //Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         //允许错误的刷石机
         if (Obsidian.getOB_config().getERS()) {
             if(block.getId() == 49 && block.getDamage() == 0){
@@ -110,11 +110,22 @@ public class OB_Listener implements Listener {
     }
 
     @EventHandler
-    public void onLDE(LeavesDecayEvent event){
+    public void onLDE(LeavesDecayEvent event) {
         //树叶掉落保底
         if (Obsidian.getOB_config().getSMBD()) {
             //task异步检测
             Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         }
     }
+
+/*    @EventHandler
+    public void onBBE(BlockBreakEvent event) {
+        //调试状态
+        Server.getInstance().getLogger().info("触发监听器");
+        //树叶掉落保底
+        if (Obsidian.getOB_config().getSMBD()) {
+            //task异步检测
+            Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
+        }
+    }*/
 }

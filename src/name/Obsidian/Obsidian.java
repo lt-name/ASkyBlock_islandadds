@@ -14,8 +14,6 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import name.Obsidian.Listener.OB_Listener;
-import java.util.List;
-import java.util.Map;
 
 public class Obsidian extends PluginBase implements Listener {
 
@@ -33,7 +31,6 @@ public class Obsidian extends PluginBase implements Listener {
 
     @Override
     public void onDisable() {
-        //this.config.save();
         Server.getInstance().getLogger().info(TextFormat.RED+"[Obsidian] 已卸载！");
     }
 
@@ -69,7 +66,4 @@ public class Obsidian extends PluginBase implements Listener {
         return this.config.getBoolean("刷石机概率生成矿物",false);
     }
 
-    public List<Map> getKWGL() {
-        return this.config.getList("刷石机概率设置");
-    }
 }
