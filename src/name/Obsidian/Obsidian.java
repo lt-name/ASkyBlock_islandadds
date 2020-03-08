@@ -1,3 +1,11 @@
+/*
+   ___   _           _      _  _
+  / _ \ | |__   ___ (_)  __| |( )  __ _  _ __
+ | | | ||  _ \ / __|| | / _  || | / _  ||  _ \
+ | |_| || |_) |\__ \| || (_| || || (_| || | | |
+  \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
+
+Obsidian - 黑曜石                              */
 package name.Obsidian;
 
 import cn.nukkit.Server;
@@ -6,6 +14,8 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import name.Obsidian.Listener.OB_Listener;
+import java.util.List;
+import java.util.Map;
 
 public class Obsidian extends PluginBase implements Listener {
 
@@ -49,5 +59,17 @@ public class Obsidian extends PluginBase implements Listener {
 
     public int getWFWY() {
         return this.config.getInt("高空流水判断格数",3);
+    }
+
+    public boolean getSMBD() {
+        return this.config.getBoolean("树苗掉落保底",false);
+    }
+
+    public boolean getKWS() {
+        return this.config.getBoolean("刷石机概率生成矿物",false);
+    }
+
+    public List<Map> getKWGL() {
+        return this.config.getList("刷石机概率设置");
     }
 }

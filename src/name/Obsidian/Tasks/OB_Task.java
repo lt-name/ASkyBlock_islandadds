@@ -1,15 +1,23 @@
-package name.Obsidian.task;
+/*
+   ___   _           _      _  _
+  / _ \ | |__   ___ (_)  __| |( )  __ _  _ __
+ | | | ||  _ \ / __|| | / _  || | / _  ||  _ \
+ | |_| || |_) |\__ \| || (_| || || (_| || | | |
+  \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
+
+Obsidian - 黑曜石                              */
+package name.Obsidian.Tasks;
 
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;
 import cn.nukkit.scheduler.Task;
 import cn.nukkit.utils.TextFormat;
 
-public class OB_task extends Task {
+public class OB_Task extends Task {
 
     private Player player;
 
-    public OB_task(Player player) {
+    public OB_Task(Player player) {
         this.player = player;
     }
 

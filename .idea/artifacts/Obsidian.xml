@@ -2,7 +2,7 @@
   <artifact type="jar" build-on-make="true" name="Obsidian">
     <output-path>$PROJECT_DIR$/../../Nukkit开发测试平台/plugins</output-path>
     <root id="archive" name="Obsidian.jar">
-      <element id="module-output" name="Obsidian_Restore_nk" />
+      <element id="module-output" name="Obsidian" />
     </root>
   </artifact>
 </component>

@@ -1,3 +1,11 @@
+/*
+   ___   _           _      _  _
+  / _ \ | |__   ___ (_)  __| |( )  __ _  _ __
+ | | | ||  _ \ / __|| | / _  || | / _  ||  _ \
+ | |_| || |_) |\__ \| || (_| || || (_| || | | |
+  \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
+
+Obsidian - 黑曜石                              */
 package name.Obsidian.Listener;
 
 import cn.nukkit.Player;
@@ -7,11 +15,13 @@ import cn.nukkit.block.BlockAir;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockUpdateEvent;
+import cn.nukkit.event.block.LeavesDecayEvent;
 import cn.nukkit.event.block.LiquidFlowEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
-import name.Obsidian.task.OB_task;
+import name.Obsidian.Tasks.Leaves_Task;
+import name.Obsidian.Tasks.OB_Task;
 import name.Obsidian.Obsidian;
 
 public class OB_Listener implements Listener {
@@ -26,27 +36,25 @@ public class OB_Listener implements Listener {
                 if(block.getId() == 49 && block.getDamage() == 0){
                     Player player = event.getPlayer();
                     //潜行有效
-                    if (Obsidian.getOB_config().getSK() && player.isSneaking()){
-                        block.getLevel().setBlock(block,new BlockAir());
-                        player.getInventory().removeItem(Item.get(325, 0));
-                        Server.getInstance().getScheduler().scheduleDelayedTask(new OB_task(player), 5);
-                    }else {
-                        block.getLevel().setBlock(block,new BlockAir());
-                        player.getInventory().removeItem(Item.get(325, 0));
-                        Server.getInstance().getScheduler().scheduleDelayedTask(new OB_task(player), 5);
+                    if (Obsidian.getOB_config().getSK()){
+                        if (!player.isSneaking()){ return; }
                     }
+                    block.getLevel().setBlock(block,new BlockAir());
+                    player.getInventory().removeItem(Item.get(325, 0));
+                    Server.getInstance().getScheduler().scheduleDelayedTask(new OB_Task(player), 5);
                 }
             }
         }
     }
 
     @EventHandler
-    public void onBup(BlockUpdateEvent event) {
+    public void onBUP(BlockUpdateEvent event) {
         Block block = event.getBlock();
         int x = block.getFloorX();
         int y = block.getFloorY();
         int z = block.getFloorZ();
         Level level = block.getLevel();
+        //Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         //允许错误的刷石机
         if (Obsidian.getOB_config().getERS()) {
             if(block.getId() == 49 && block.getDamage() == 0){
@@ -98,6 +106,15 @@ public class OB_Listener implements Listener {
                 }
             }
             event.setCancelled();
+        }
+    }
+
+    @EventHandler
+    public void onLDE(LeavesDecayEvent event){
+        //树叶掉落保底
+        if (Obsidian.getOB_config().getSMBD()) {
+            //task异步检测
+            Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         }
     }
 }
