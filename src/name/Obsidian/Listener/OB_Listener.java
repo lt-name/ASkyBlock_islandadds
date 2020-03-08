@@ -108,18 +108,16 @@ public class OB_Listener implements Listener {
 
     @EventHandler
     public void OnLDE(LeavesDecayEvent event) {
-        //树叶掉落保底
         if (Obsidian.getOB_config().getSMBD() &&
-                (!Obsidian.getOB_config().changeLeaves(event.getBlock(), false))) {
+                Obsidian.getOB_config().changeLeaves(event.getBlock(), false)) {
             Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         }
     }
 
     @EventHandler
-    public void onBBE(BlockBreakEvent event) {
-        //树叶掉落保底
+    public void OnBBE(BlockBreakEvent event) {
         if (Obsidian.getOB_config().getSMBD() &&
-                (!Obsidian.getOB_config().changeLeaves(event.getBlock(), false)) &&
+                Obsidian.getOB_config().changeLeaves(event.getBlock(), false) &&
                 (event.getPlayer().getGamemode() == 0)) {
             Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         }

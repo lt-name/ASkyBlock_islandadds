@@ -38,9 +38,9 @@ public class Obsidian extends PluginBase implements Listener {
     }
 
     public boolean changeLeaves(Block block, boolean add) {
-        //参考若水的CreateBlock插件（已获得授权）
+        //此函数参考若水的CreateBlock插件（已获得授权）
         String s = block.getX() + ":" + block.getY() + ":" + block.getZ() + ":" + block.getLevel().getFolderName();
-        ArrayList<String> list = new ArrayList<String>(this.Leaves.getStringList("Leaves"));
+        ArrayList<String> list = new ArrayList<>(this.Leaves.getStringList("Leaves"));
         if (add) {
             list.add(s);
             this.Leaves.set("Leaves", list);
@@ -50,9 +50,9 @@ public class Obsidian extends PluginBase implements Listener {
             list.remove(s);
             this.Leaves.set("Leaves", list);
             this.Leaves.save();
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
 
     public static Obsidian getOB_config() {
