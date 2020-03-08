@@ -56,7 +56,6 @@ public class Leaves_Task extends Task {
                 }
             }
             //判断树叶类型，并掉落树苗
-            Server.getInstance().getLogger().info(block.getId()+":"+block.getDamage());
             if (block.getId() == 18) {
                 switch (block.getDamage()){
                     //橡树叶

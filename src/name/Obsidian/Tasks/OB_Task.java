@@ -5,7 +5,7 @@
  | |_| || |_) |\__ \| || (_| || || (_| || | | |
   \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
 
-Obsidian - 黑曜石                              */
+Obsidian - 黑曜石 - 延迟给岩浆                   */
 package name.Obsidian.Tasks;
 
 import cn.nukkit.Player;

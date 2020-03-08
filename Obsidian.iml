@@ -9,5 +9,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="NukkitX" level="project" />
+    <orderEntry type="library" name="CreateBlock_v1.0.3" level="project" />
   </component>
 </module>

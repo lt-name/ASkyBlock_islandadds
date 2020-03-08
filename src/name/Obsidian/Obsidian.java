@@ -8,30 +8,51 @@
 Obsidian - 黑曜石                              */
 package name.Obsidian;
 
-import cn.nukkit.Server;
+import cn.nukkit.block.Block;
 import cn.nukkit.event.Listener;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import name.Obsidian.Listener.OB_Listener;
 
+import java.util.ArrayList;
+
 public class Obsidian extends PluginBase implements Listener {
 
-    private Config config;
+    private Config config,Leaves;
     private static Obsidian OB_config;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         this.config = getConfig();
+        this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
         OB_config = this;
-        this.getServer().getPluginManager().registerEvents(new OB_Listener(), this);
-        Server.getInstance().getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
+        getServer().getPluginManager().registerEvents(new OB_Listener(), this);
+        getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
     }
 
     @Override
     public void onDisable() {
-        Server.getInstance().getLogger().info(TextFormat.RED+"[Obsidian] 已卸载！");
+        getLogger().info(TextFormat.RED+"[Obsidian] 已卸载！");
+    }
+
+    public boolean changeLeaves(Block block, boolean add) {
+        //参考若水的CreateBlock插件（已获得授权）
+        String s = block.getX() + ":" + block.getY() + ":" + block.getZ() + ":" + block.getLevel().getFolderName();
+        ArrayList<String> list = new ArrayList<String>(this.Leaves.getStringList("Leaves"));
+        if (add) {
+            list.add(s);
+            this.Leaves.set("Leaves", list);
+            this.Leaves.save();
+            return true;
+        }else if (list.contains(s)) {
+            list.remove(s);
+            this.Leaves.set("Leaves", list);
+            this.Leaves.save();
+            return true;
+        }
+        return false;
     }
 
     public static Obsidian getOB_config() {
@@ -62,8 +83,8 @@ public class Obsidian extends PluginBase implements Listener {
         return this.config.getBoolean("树苗掉落保底",false);
     }
 
-    public boolean getKWS() {
+/*    public boolean getKWS() {
         return this.config.getBoolean("刷石机概率生成矿物",false);
-    }
+    }*/
 
 }

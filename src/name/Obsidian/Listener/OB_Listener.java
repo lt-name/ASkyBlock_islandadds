@@ -14,10 +14,7 @@ import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockAir;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
-import cn.nukkit.event.block.BlockBreakEvent;
-import cn.nukkit.event.block.BlockUpdateEvent;
-import cn.nukkit.event.block.LeavesDecayEvent;
-import cn.nukkit.event.block.LiquidFlowEvent;
+import cn.nukkit.event.block.*;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
@@ -28,7 +25,7 @@ import name.Obsidian.Obsidian;
 public class OB_Listener implements Listener {
 
     @EventHandler
-    public void onInt(PlayerInteractEvent event) {
+    public void OnInt(PlayerInteractEvent event) {
         //黑曜石还原岩浆
         if (Obsidian.getOB_config().getOR()){
             Item item = event.getItem();
@@ -49,7 +46,7 @@ public class OB_Listener implements Listener {
     }
 
     @EventHandler
-    public void onBUP(BlockUpdateEvent event) {
+    public void OnBUP(BlockUpdateEvent event) {
         Block block = event.getBlock();
         int x = block.getFloorX();
         int y = block.getFloorY();
@@ -87,7 +84,7 @@ public class OB_Listener implements Listener {
     }
 
     @EventHandler
-    public void onLFE(LiquidFlowEvent event) {
+    public void OnLFE(LiquidFlowEvent event) {
         //禁止高空流水
         if (Obsidian.getOB_config().getWFW()) {
             int x = event.getTo().getFloorX();
@@ -110,22 +107,31 @@ public class OB_Listener implements Listener {
     }
 
     @EventHandler
-    public void onLDE(LeavesDecayEvent event) {
+    public void OnLDE(LeavesDecayEvent event) {
         //树叶掉落保底
-        if (Obsidian.getOB_config().getSMBD()) {
-            //task异步检测
+        if (Obsidian.getOB_config().getSMBD() &&
+                (!Obsidian.getOB_config().changeLeaves(event.getBlock(), false))) {
             Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         }
     }
 
-/*    @EventHandler
+    @EventHandler
     public void onBBE(BlockBreakEvent event) {
-        //调试状态
-        Server.getInstance().getLogger().info("触发监听器");
         //树叶掉落保底
-        if (Obsidian.getOB_config().getSMBD()) {
-            //task异步检测
+        if (Obsidian.getOB_config().getSMBD() &&
+                (!Obsidian.getOB_config().changeLeaves(event.getBlock(), false)) &&
+                (event.getPlayer().getGamemode() == 0)) {
             Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
         }
-    }*/
+    }
+
+    @EventHandler
+    public void OnBPE(BlockPlaceEvent event) {
+        if (Obsidian.getOB_config().getSMBD()) {
+            Block block = event.getBlock();
+            if (block.getName().contains("Leaves")) {
+                Obsidian.getOB_config().changeLeaves(block, true);
+            }
+        }
+    }
 }
