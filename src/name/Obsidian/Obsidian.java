@@ -9,15 +9,13 @@ Obsidian - 黑曜石                              */
 package name.Obsidian;
 
 import cn.nukkit.block.Block;
-import cn.nukkit.event.Listener;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import name.Obsidian.Listener.OB_Listener;
-
 import java.util.ArrayList;
 
-public class Obsidian extends PluginBase implements Listener {
+public class Obsidian extends PluginBase {
 
     private Config config,Leaves;
     private static Obsidian OB_config;
