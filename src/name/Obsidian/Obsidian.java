@@ -78,7 +78,15 @@ public class Obsidian extends PluginBase {
     }
 
     public boolean getSMBD() {
-        return this.config.getBoolean("树苗掉落保底",false);
+        return this.config.getBoolean("树苗掉落保底",true);
+    }
+
+    public boolean getXKP() {
+        return this.config.getBoolean("虚空保护", true);
+    }
+
+    public boolean getXKPM() {
+        return this.config.getBoolean("虚空保护扫描方块",false);
     }
 
 /*    public boolean getKWS() {

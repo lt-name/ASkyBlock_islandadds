@@ -16,11 +16,14 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.*;
 import cn.nukkit.event.player.PlayerInteractEvent;
+import cn.nukkit.event.player.PlayerMoveEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
+import com.larryTheCoder.ASkyBlock;
 import name.Obsidian.Tasks.Leaves_Task;
 import name.Obsidian.Tasks.OB_Task;
 import name.Obsidian.Obsidian;
+import name.Obsidian.Tasks.XKP_Task;
 
 public class OB_Listener implements Listener {
 
@@ -110,7 +113,7 @@ public class OB_Listener implements Listener {
     public void OnLDE(LeavesDecayEvent event) {
         if (Obsidian.getOB_config().getSMBD() &&
                 Obsidian.getOB_config().changeLeaves(event.getBlock(), false)) {
-            Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
+            Server.getInstance().getScheduler().scheduleTask(new Leaves_Task(event.getBlock()));
         }
     }
 
@@ -119,7 +122,7 @@ public class OB_Listener implements Listener {
         if (Obsidian.getOB_config().getSMBD() &&
                 Obsidian.getOB_config().changeLeaves(event.getBlock(), false) &&
                 (event.getPlayer().getGamemode() == 0)) {
-            Server.getInstance().getScheduler().scheduleDelayedTask(new Leaves_Task(event.getBlock()), 1);
+            Server.getInstance().getScheduler().scheduleTask(new Leaves_Task(event.getBlock()));
         }
     }
 
@@ -129,6 +132,24 @@ public class OB_Listener implements Listener {
             Block block = event.getBlock();
             if (block.getName().contains("Leaves")) {
                 Obsidian.getOB_config().changeLeaves(block, true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void OnPME(PlayerMoveEvent event) {
+        if (Obsidian.getOB_config().getXKP()) {
+            if (event.getTo().getFloorY() < 0) {
+                Player player = event.getPlayer();
+                //在空岛世界就拉回到空岛，否则拉回到主世界
+                if ((Server.getInstance().getPluginManager().getPlugin("ASkyBlock") != null) &&
+                        ASkyBlock.get().inIslandWorld(player)) {
+                    Level level = player.getLevel();
+                    Server.getInstance().getScheduler().scheduleTask(new XKP_Task(player, level));
+                }else {
+                    player.teleport(Server.getInstance().getDefaultLevel().getSafeSpawn());
+                    player.sendMessage("§a[虚空保护]：已将您拉回主世界！");
+                }
             }
         }
     }
