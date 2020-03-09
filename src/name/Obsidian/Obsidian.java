@@ -85,8 +85,8 @@ public class Obsidian extends PluginBase {
         return this.config.getBoolean("虚空保护", true);
     }
 
-    public boolean getXKPM() {
-        return this.config.getBoolean("虚空保护扫描方块",false);
+    public int getXKPM() {
+        return this.config.getInt("虚空保护模式", 1);
     }
 
 /*    public boolean getKWS() {

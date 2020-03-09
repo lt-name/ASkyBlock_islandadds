@@ -26,7 +26,7 @@ public class XKP_Task extends Task {
     }
 
     public void onRun(int i){
-        if (Obsidian.getOB_config().getXKPM()) {
+        if (Obsidian.getOB_config().getXKPM() == 2) {
             int x = this.player.getFloorX();
             int z = this.player.getFloorZ();
             //翻了下nk核心for用的++x那我也用这个格式好了
