@@ -27,12 +27,12 @@ public class Obsidian extends PluginBase {
         this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
         OB_config = this;
         getServer().getPluginManager().registerEvents(new OB_Listener(), this);
-        getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
+        getServer().getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(TextFormat.RED+"[Obsidian] 已卸载！");
+        getServer().getLogger().info(TextFormat.RED+"[Obsidian] 已卸载！");
     }
 
     public boolean changeLeaves(Block block, boolean add) {

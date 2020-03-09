@@ -5,7 +5,7 @@
  | |_| || |_) |\__ \| || (_| || || (_| || | | |
   \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
 
-Obsidian - 黑曜石                              */
+Obsidian - 黑曜石 - 扫描附近空岛                */
 package name.Obsidian.Tasks;
 
 import cn.nukkit.Player;
@@ -39,30 +39,43 @@ public class XKP_Task extends Task {
                         if ((this.level.getBlock(x - x1, y1, z - z1).getId() != 0) &&
                                 (!this.level.getBlock(x - x1, y1, z - z1).getName().contains("Water")) &&
                                 (!this.level.getBlock(x - x1, y1, z - z1).getName().contains("Lava"))) {
-                            this.player.teleport(new Position(x - x1, y1 + 1, z - z1, level));
-                            this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
-                            return;
+                            //还得防止传送到墙里
+                            if ((this.level.getBlock(x - x1,y1 + 1,z - z1).getId() == 0) &&
+                                    (this.level.getBlock(x - x1,y1 + 2,z - z1).getId() == 0)){
+                                this.player.teleport(new Position(x - x1, y1 + 1, z - z1, level));
+                                this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                                return;
+                            }
                         }
                         if ((this.level.getBlock(x - x1, y1, z + z1).getId() != 0) &&
                                 (!this.level.getBlock(x - x1, y1, z + z1).getName().contains("Water")) &&
                                 (!this.level.getBlock(x - x1, y1, z + z1).getName().contains("Lava"))) {
-                            this.player.teleport(new Position(x - x1, y1 + 1, z + z1, level));
-                            this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
-                            return;
+                            if ((this.level.getBlock(x - x1,y1 + 1,z + z1).getId() == 0) &&
+                                    (this.level.getBlock(x - x1,y1 + 2,z + z1).getId() == 0)) {
+                                this.player.teleport(new Position(x - x1, y1 + 1, z + z1, level));
+                                this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                                return;
+                            }
                         }
                         if ((this.level.getBlock(x + x1, y1, z - z1).getId() != 0) &&
                                 (!this.level.getBlock(x + x1, y1, z - z1).getName().contains("Water")) &&
                                 (!this.level.getBlock(x + x1, y1, z - z1).getName().contains("Lava"))) {
-                            this.player.teleport(new Position(x + x1, y1 + 1, z - z1, level));
-                            this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
-                            return;
+                            if ((this.level.getBlock(x + x1,y1 + 1,z - z1).getId() == 0) &&
+                                    (this.level.getBlock(x + x1,y1 + 2,z - z1).getId() == 0)) {
+                                this.player.teleport(new Position(x + x1, y1 + 1, z - z1, level));
+                                this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                                return;
+                            }
                         }
                         if ((this.level.getBlock(x + x1, y1, z + z1).getId() != 0) &&
                                 (!this.level.getBlock(x + x1, y1, z + z1).getName().contains("Water")) &&
                                 (!this.level.getBlock(x + x1, y1, z + z1).getName().contains("Lava"))) {
-                            this.player.teleport(new Position(x + x1, y1 + 1, z + z1, level));
-                            this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
-                            return;
+                            if ((this.level.getBlock(x + x1,y1 + 1,z + z1).getId() == 0) &&
+                                    (this.level.getBlock(x + x1,y1 + 2,z + z1).getId() == 0)) {
+                                this.player.teleport(new Position(x + x1, y1 + 1, z + z1, level));
+                                this.player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                                return;
+                            }
                         }
                     }
                 }
