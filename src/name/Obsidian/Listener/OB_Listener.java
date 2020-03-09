@@ -37,8 +37,8 @@ public class OB_Listener implements Listener {
                 if((block != null) && (block.getId() == 49) && (block.getDamage() == 0)){
                     Player player = event.getPlayer();
                     //潜行有效
-                    if (Obsidian.getOB_config().getSK()){
-                        if (!player.isSneaking()){ return; }
+                    if ((player == null) || (Obsidian.getOB_config().getSK() && (!player.isSneaking()))){
+                        return;
                     }
                     block.getLevel().setBlock(block,new BlockAir());
                     player.getInventory().removeItem(Item.get(325, 0));
