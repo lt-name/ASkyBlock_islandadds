@@ -32,9 +32,9 @@ public class OB_Listener implements Listener {
         //黑曜石还原岩浆
         if (Obsidian.getOB_config().getOR()){
             Item item = event.getItem();
-            if(item.getId() == 325 && item.getDamage() == 0){
+            if((item != null) && (item.getId() == 325) && (item.getDamage() == 0)){
                 Block block = event.getBlock();
-                if(block.getId() == 49 && block.getDamage() == 0){
+                if((block != null) && (block.getId() == 49) && (block.getDamage() == 0)){
                     Player player = event.getPlayer();
                     //潜行有效
                     if (Obsidian.getOB_config().getSK()){
@@ -50,13 +50,14 @@ public class OB_Listener implements Listener {
 
     @EventHandler
     public void OnBUP(BlockUpdateEvent event) {
-        Block block = event.getBlock();
-        int x = block.getFloorX();
-        int y = block.getFloorY();
-        int z = block.getFloorZ();
-        Level level = block.getLevel();
         //允许错误的刷石机
         if (Obsidian.getOB_config().getERS()) {
+            Block block = event.getBlock();
+            int x = block.getFloorX();
+            int y = block.getFloorY();
+            int z = block.getFloorZ();
+            Level level = block.getLevel();
+            if (level == null) { return; }
             if(block.getId() == 49 && block.getDamage() == 0){
                 if(level.getBlock(x-1, y, z).getId() == 8){
                     level.setBlock(level.getBlock(x-1, y, z),Block.get(4));
@@ -90,6 +91,7 @@ public class OB_Listener implements Listener {
     public void OnLFE(LiquidFlowEvent event) {
         //禁止高空流水
         if (Obsidian.getOB_config().getWFW()) {
+            if (event.getTo() == null) { return; }
             int x = event.getTo().getFloorX();
             int y = event.getTo().getFloorY();
             int z = event.getTo().getFloorZ();
@@ -112,6 +114,7 @@ public class OB_Listener implements Listener {
     @EventHandler
     public void OnLDE(LeavesDecayEvent event) {
         if (Obsidian.getOB_config().getSMBD() &&
+                (event.getBlock() != null) &&
                 Obsidian.getOB_config().changeLeaves(event.getBlock(), false)) {
             Server.getInstance().getScheduler().scheduleTask(new Leaves_Task(event.getBlock()));
         }
@@ -120,6 +123,7 @@ public class OB_Listener implements Listener {
     @EventHandler
     public void OnBBE(BlockBreakEvent event) {
         if (Obsidian.getOB_config().getSMBD() &&
+                (event.getBlock() != null) &&
                 Obsidian.getOB_config().changeLeaves(event.getBlock(), false) &&
                 (event.getPlayer().getGamemode() == 0)) {
             Server.getInstance().getScheduler().scheduleTask(new Leaves_Task(event.getBlock()));
@@ -130,7 +134,7 @@ public class OB_Listener implements Listener {
     public void OnBPE(BlockPlaceEvent event) {
         if (Obsidian.getOB_config().getSMBD()) {
             Block block = event.getBlock();
-            if (block.getName().contains("Leaves")) {
+            if ((block != null) && block.getName().contains("Leaves")) {
                 Obsidian.getOB_config().changeLeaves(block, true);
             }
         }
@@ -139,8 +143,9 @@ public class OB_Listener implements Listener {
     @EventHandler
     public void OnPME(PlayerMoveEvent event) {
         if (Obsidian.getOB_config().getXKP()) {
-            if (event.getTo().getFloorY() < 0) {
+            if ((event.getTo() != null) && (event.getTo().getFloorY() < 0)) {
                 Player player = event.getPlayer();
+                if (player == null) { return; }
                 //在空岛世界就拉回到空岛，否则拉回到主世界
                 if ((Server.getInstance().getPluginManager().getPlugin("ASkyBlock") != null) &&
                         ASkyBlock.get().inIslandWorld(player)) {
