@@ -57,8 +57,7 @@ public class OB_Listener implements Listener {
             int y = block.getFloorY();
             int z = block.getFloorZ();
             Level level = block.getLevel();
-            if (level == null) { return; }
-            if(block.getId() == 49 && block.getDamage() == 0){
+            if((level != null) && (block.getId() == 49 && block.getDamage() == 0)){
                 if(level.getBlock(x-1, y, z).getId() == 8){
                     level.setBlock(level.getBlock(x-1, y, z),Block.get(4));
                     level.setBlock(block,Block.get(10));
