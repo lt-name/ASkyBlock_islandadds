@@ -31,7 +31,7 @@ public class Obsidian extends PluginBase {
         if (this.config.getBoolean("虚空保护", true)){
             //异步检测玩家移动
             getServer().getScheduler().scheduleDelayedRepeatingTask(
-                    new playermove(this,this.config.getInt("虚空保护模式", 1)), 20, 20, true);
+                    new playermove(this,this.config.getInt("虚空保护模式", 1)), 20, 5, true);
         }
         getServer().getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
     }
