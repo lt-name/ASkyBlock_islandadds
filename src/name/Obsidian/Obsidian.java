@@ -13,6 +13,7 @@ import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import name.Obsidian.Listener.OB_Listener;
+import name.Obsidian.Tasks.playermove;
 import java.util.ArrayList;
 
 public class Obsidian extends PluginBase {
@@ -27,6 +28,11 @@ public class Obsidian extends PluginBase {
         this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
         Obsidian = this;
         getServer().getPluginManager().registerEvents(new OB_Listener(), this);
+        if (this.config.getBoolean("虚空保护", true)){
+            //异步检测玩家移动
+            getServer().getScheduler().scheduleDelayedRepeatingTask(
+                    new playermove(this,this.config.getInt("虚空保护模式", 1)), 20, 20, true);
+        }
         getServer().getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
     }
 
@@ -81,19 +87,5 @@ public class Obsidian extends PluginBase {
     public boolean getSMBD() {
         return this.config.getBoolean("树苗掉落保底",true);
     }
-
-    public boolean getXKP() {
-        return this.config.getBoolean("虚空保护", true);
-    }
-
-    public int getXKPM() {
-        return this.config.getInt("虚空保护模式", 1);
-    }
-
-/*    public boolean getKWS() {
-        return this.config.getBoolean("刷石机概率生成矿物",false);
-    }*/
-
-    //
 
 }

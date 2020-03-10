@@ -12,18 +12,18 @@ import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockAir;
+import cn.nukkit.entity.Entity;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.*;
+import cn.nukkit.event.entity.ItemSpawnEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
-import cn.nukkit.event.player.PlayerMoveEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
-import com.larryTheCoder.ASkyBlock;
+import cn.nukkit.level.Position;
 import name.Obsidian.Tasks.asyncLeaves;
 import name.Obsidian.Tasks.delayGiveLava;
 import name.Obsidian.Obsidian;
-import name.Obsidian.Tasks.XKP_Task;
 
 public class OB_Listener implements Listener {
 
@@ -140,85 +140,4 @@ public class OB_Listener implements Listener {
         }
     }
 
-    @EventHandler
-    public void OnPME(PlayerMoveEvent event) {
-        if (Obsidian.get().getXKP()) {
-            if ((event.getTo() != null) && (event.getTo().getFloorY() < 0)) {
-                Player player = event.getPlayer();
-                if (player == null) { return; }
-                //在空岛世界就拉回到空岛，否则拉回到主世界
-                if ((Server.getInstance().getPluginManager().getPlugin("ASkyBlock") != null) &&
-                        ASkyBlock.get().inIslandWorld(player)) {
-                    Level level = player.getLevel();
-                    Server.getInstance().getScheduler().scheduleTask(new XKP_Task(player, level));
-                    //Server.getInstance().getScheduler().scheduleAsyncTask(Obsidian.get(), new island(player, level));
-                }else {
-                    player.teleport(Server.getInstance().getDefaultLevel().getSafeSpawn());
-                    player.sendMessage("§a[虚空保护]：已将您拉回主世界！");
-                }
-            }
-        }
-    }
-
-/*    @EventHandler
-    public void OnISE(ItemSpawnEvent event) {
-        Entity entity = event.getEntity();
-        //空的你触发监听器干什么？
-        if (entity == null) { return; }
-        int x = entity.getFloorX();
-        int y = entity.getFloorY();
-        int z = entity.getFloorZ();
-        Level level = entity.getLevel();
-        //从掉落物高度开始往下扫描 3为水面
-        for (int y1 = y; y1 > 3; --y1) {
-            if (level.getBlock(x, y1, z).getId() != 0) { return; }
-        }
-        //拉回 扫描附近 5X5X5 大小的八个区块
-        for (int y1 = 0; y1 < 5; ++y1) {
-            for (int x1 = 0; x1 < 5; ++x1) {
-                for (int z1 = 0; z1 < 5; ++z1) {
-//                    000   x-  y-   z-
-                    if (level.getBlock(x - x1,y - y1,z - z1).getId() != 0) {
-                        entity.move((double)-x1,(double)-y1,(double)-z1);
-                        return;
-                    }
-//                    001   x-  y-  z+
-                    if (level.getBlock(x - x1,y - y1,z + z1).getId() != 0) {
-                        entity.move((double)-x1,(double)-y1,(double)z1);
-                        return;
-                    }
-//                    010   x-  y+  z-
-                    if (level.getBlock(x - x1,y + y1,z - z1).getId() != 0) {
-                        entity.move((double)-x1,(double)y1,(double)-z1);
-                        return;
-                    }
-//                    011   x-  y+  z+
-                    if (level.getBlock(x - x1,y + y1,z + z1).getId() != 0) {
-                        entity.move((double)-x1,(double)y1,(double)z1);
-                        return;
-                    }
-//                    100   x+  y-  z-
-                    if (level.getBlock(x + x1,y - y1,z - z1).getId() != 0) {
-                        entity.move((double)x1,(double)-y1,(double)-z1);
-                        return;
-                    }
-//                    101   x+  y-  z+
-                    if (level.getBlock(x + x1,y - y1,z + z1).getId() != 0) {
-                        entity.move((double)x1,(double)-y1,(double)z1);
-                        return;
-                    }
-//                    110   x+  y+  z-
-                    if (level.getBlock(x + x1,y + y1,z - z1).getId() != 0) {
-                        entity.move((double)x1,(double)y1,(double)-z1);
-                        return;
-                    }
-//                    111   x+  y+  z-
-                    if (level.getBlock(x + x1,y + y1,z - z1).getId() != 0) {
-                        entity.move((double)x1,(double)y1,(double)-z1);
-                        return;
-                    }
-                }
-            }
-        }
-    }*/
 }

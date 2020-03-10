@@ -47,8 +47,8 @@ public class asyncLeaves extends AsyncTask {
                         if (level.getBlock(x + x1,y - y1,z + z1).getName().contains("Leaves")) {return;}
 //                    110   x+  y+  z-
                         if (level.getBlock(x + x1,y + y1,z - z1).getName().contains("Leaves")) {return;}
-//                    111   x+  y+  z-
-                        if (level.getBlock(x + x1,y + y1,z - z1).getName().contains("Leaves")) {return;}
+//                    111   x+  y+  z+
+                        if (level.getBlock(x + x1,y + y1,z + z1).getName().contains("Leaves")) {return;}
                     }
                 }
             }
