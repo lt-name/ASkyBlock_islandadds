@@ -18,14 +18,14 @@ import java.util.ArrayList;
 public class Obsidian extends PluginBase {
 
     private Config config,Leaves;
-    private static Obsidian OB_config;
+    private static Obsidian Obsidian;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         this.config = getConfig();
         this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
-        OB_config = this;
+        Obsidian = this;
         getServer().getPluginManager().registerEvents(new OB_Listener(), this);
         getServer().getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
     }
@@ -53,10 +53,11 @@ public class Obsidian extends PluginBase {
         return true;
     }
 
-    public static Obsidian getOB_config() {
-        return OB_config;
+    public static Obsidian get() {
+        return Obsidian;
     }
 
+    //获取配置
     public boolean getOR() {
         return this.config.getBoolean("空桶点击黑曜石还原岩浆",true);
     }
@@ -92,5 +93,7 @@ public class Obsidian extends PluginBase {
 /*    public boolean getKWS() {
         return this.config.getBoolean("刷石机概率生成矿物",false);
     }*/
+
+    //
 
 }

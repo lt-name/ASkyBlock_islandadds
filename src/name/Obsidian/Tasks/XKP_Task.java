@@ -20,16 +20,16 @@ public class XKP_Task extends Task {
     private Player player;
     private Level level;
 
-    public XKP_Task (Player player, Level level) {
+    public XKP_Task(Player player, Level level) {
         this.player = player;
         this.level = level;
     }
 
     public void onRun(int i){
-        if (Obsidian.getOB_config().getXKPM() == 2) {
+        if ((this.player == null) || (this.level == null)) { return; }
+        if (Obsidian.get().getXKPM() == 2) {
             int x = this.player.getFloorX();
             int z = this.player.getFloorZ();
-            //翻了下nk核心for用的++x那我也用这个格式好了
             //丧心病狂的扫描，这次总不会漏掉了吧
             //建筑建那么高？那您还是回主空岛去吧
             for (int y1 = 200; y1 > 0; --y1) {

@@ -13,11 +13,11 @@ import cn.nukkit.item.Item;
 import cn.nukkit.scheduler.Task;
 import cn.nukkit.utils.TextFormat;
 
-public class OB_Task extends Task {
+public class delayGiveLava extends Task {
 
     private Player player;
 
-    public OB_Task(Player player) {
+    public delayGiveLava(Player player) {
         this.player = player;
     }
 

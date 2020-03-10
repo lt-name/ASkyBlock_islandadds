@@ -20,8 +20,8 @@ import cn.nukkit.event.player.PlayerMoveEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import com.larryTheCoder.ASkyBlock;
-import name.Obsidian.Tasks.Leaves_Task;
-import name.Obsidian.Tasks.OB_Task;
+import name.Obsidian.Tasks.asyncLeaves;
+import name.Obsidian.Tasks.delayGiveLava;
 import name.Obsidian.Obsidian;
 import name.Obsidian.Tasks.XKP_Task;
 
@@ -30,19 +30,19 @@ public class OB_Listener implements Listener {
     @EventHandler
     public void OnInt(PlayerInteractEvent event) {
         //黑曜石还原岩浆
-        if (Obsidian.getOB_config().getOR()){
+        if (Obsidian.get().getOR()){
             Item item = event.getItem();
             if((item != null) && (item.getId() == 325) && (item.getDamage() == 0)){
                 Block block = event.getBlock();
                 if((block != null) && (block.getId() == 49) && (block.getDamage() == 0)){
                     Player player = event.getPlayer();
                     //潜行有效
-                    if ((player == null) || (Obsidian.getOB_config().getSK() && (!player.isSneaking()))){
+                    if ((player == null) || (Obsidian.get().getSK() && (!player.isSneaking()))){
                         return;
                     }
                     block.getLevel().setBlock(block,new BlockAir());
                     player.getInventory().removeItem(Item.get(325, 0));
-                    Server.getInstance().getScheduler().scheduleDelayedTask(new OB_Task(player), 5);
+                    Server.getInstance().getScheduler().scheduleDelayedTask(new delayGiveLava(player), 5);
                 }
             }
         }
@@ -51,7 +51,7 @@ public class OB_Listener implements Listener {
     @EventHandler
     public void OnBUP(BlockUpdateEvent event) {
         //允许错误的刷石机
-        if (Obsidian.getOB_config().getERS()) {
+        if (Obsidian.get().getERS()) {
             Block block = event.getBlock();
             int x = block.getFloorX();
             int y = block.getFloorY();
@@ -88,18 +88,19 @@ public class OB_Listener implements Listener {
 
     @EventHandler
     public void OnLFE(LiquidFlowEvent event) {
+        if (event.isCancelled()) { return; }
         //禁止高空流水
-        if (Obsidian.getOB_config().getWFW()) {
+        if (Obsidian.get().getWFW()) {
             if (event.getTo() == null) { return; }
             int x = event.getTo().getFloorX();
             int y = event.getTo().getFloorY();
             int z = event.getTo().getFloorZ();
-            if ((event.getTo().getLevel().getBlock(x,y+Obsidian.getOB_config().getWFWY(),z).getName().contains("Water")) ||
-                    (event.getTo().getLevel().getBlock(x,y+Obsidian.getOB_config().getWFWY(),z).getName().contains("Lava"))){
+            if ((event.getTo().getLevel().getBlock(x,y+ Obsidian.get().getWFWY(),z).getName().contains("Water")) ||
+                    (event.getTo().getLevel().getBlock(x,y+ Obsidian.get().getWFWY(),z).getName().contains("Lava"))){
                 event.setCancelled();
                 return;
             }
-            for (char i = 1; i < Obsidian.getOB_config().getWFWY(); i++) {
+            for (char i = 1; i < Obsidian.get().getWFWY(); i++) {
                 if ((event.getTo().getLevel().getBlock(x,y-i,z).getId() != 0) &&
                         (!event.getTo().getLevel().getBlock(x,y-i,z).getName().contains("Water")) &&
                         (!event.getTo().getLevel().getBlock(x,y-i,z).getName().contains("Lava"))) {
@@ -112,36 +113,36 @@ public class OB_Listener implements Listener {
 
     @EventHandler
     public void OnLDE(LeavesDecayEvent event) {
-        if (Obsidian.getOB_config().getSMBD() &&
+        if (Obsidian.get().getSMBD() &&
                 (event.getBlock() != null) &&
-                Obsidian.getOB_config().changeLeaves(event.getBlock(), false)) {
-            Server.getInstance().getScheduler().scheduleTask(new Leaves_Task(event.getBlock()));
+                Obsidian.get().changeLeaves(event.getBlock(), false)) {
+            Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new asyncLeaves(event.getBlock()));
         }
     }
 
     @EventHandler
     public void OnBBE(BlockBreakEvent event) {
-        if (Obsidian.getOB_config().getSMBD() &&
+        if (Obsidian.get().getSMBD() &&
                 (event.getBlock() != null) &&
-                Obsidian.getOB_config().changeLeaves(event.getBlock(), false) &&
+                Obsidian.get().changeLeaves(event.getBlock(), false) &&
                 (event.getPlayer().getGamemode() == 0)) {
-            Server.getInstance().getScheduler().scheduleTask(new Leaves_Task(event.getBlock()));
+            Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new asyncLeaves(event.getBlock()));
         }
     }
 
     @EventHandler
     public void OnBPE(BlockPlaceEvent event) {
-        if (Obsidian.getOB_config().getSMBD()) {
+        if (Obsidian.get().getSMBD()) {
             Block block = event.getBlock();
             if ((block != null) && block.getName().contains("Leaves")) {
-                Obsidian.getOB_config().changeLeaves(block, true);
+                Obsidian.get().changeLeaves(block, true);
             }
         }
     }
 
     @EventHandler
     public void OnPME(PlayerMoveEvent event) {
-        if (Obsidian.getOB_config().getXKP()) {
+        if (Obsidian.get().getXKP()) {
             if ((event.getTo() != null) && (event.getTo().getFloorY() < 0)) {
                 Player player = event.getPlayer();
                 if (player == null) { return; }
@@ -150,6 +151,7 @@ public class OB_Listener implements Listener {
                         ASkyBlock.get().inIslandWorld(player)) {
                     Level level = player.getLevel();
                     Server.getInstance().getScheduler().scheduleTask(new XKP_Task(player, level));
+                    //Server.getInstance().getScheduler().scheduleAsyncTask(Obsidian.get(), new island(player, level));
                 }else {
                     player.teleport(Server.getInstance().getDefaultLevel().getSafeSpawn());
                     player.sendMessage("§a[虚空保护]：已将您拉回主世界！");
@@ -157,4 +159,66 @@ public class OB_Listener implements Listener {
             }
         }
     }
+
+/*    @EventHandler
+    public void OnISE(ItemSpawnEvent event) {
+        Entity entity = event.getEntity();
+        //空的你触发监听器干什么？
+        if (entity == null) { return; }
+        int x = entity.getFloorX();
+        int y = entity.getFloorY();
+        int z = entity.getFloorZ();
+        Level level = entity.getLevel();
+        //从掉落物高度开始往下扫描 3为水面
+        for (int y1 = y; y1 > 3; --y1) {
+            if (level.getBlock(x, y1, z).getId() != 0) { return; }
+        }
+        //拉回 扫描附近 5X5X5 大小的八个区块
+        for (int y1 = 0; y1 < 5; ++y1) {
+            for (int x1 = 0; x1 < 5; ++x1) {
+                for (int z1 = 0; z1 < 5; ++z1) {
+//                    000   x-  y-   z-
+                    if (level.getBlock(x - x1,y - y1,z - z1).getId() != 0) {
+                        entity.move((double)-x1,(double)-y1,(double)-z1);
+                        return;
+                    }
+//                    001   x-  y-  z+
+                    if (level.getBlock(x - x1,y - y1,z + z1).getId() != 0) {
+                        entity.move((double)-x1,(double)-y1,(double)z1);
+                        return;
+                    }
+//                    010   x-  y+  z-
+                    if (level.getBlock(x - x1,y + y1,z - z1).getId() != 0) {
+                        entity.move((double)-x1,(double)y1,(double)-z1);
+                        return;
+                    }
+//                    011   x-  y+  z+
+                    if (level.getBlock(x - x1,y + y1,z + z1).getId() != 0) {
+                        entity.move((double)-x1,(double)y1,(double)z1);
+                        return;
+                    }
+//                    100   x+  y-  z-
+                    if (level.getBlock(x + x1,y - y1,z - z1).getId() != 0) {
+                        entity.move((double)x1,(double)-y1,(double)-z1);
+                        return;
+                    }
+//                    101   x+  y-  z+
+                    if (level.getBlock(x + x1,y - y1,z + z1).getId() != 0) {
+                        entity.move((double)x1,(double)-y1,(double)z1);
+                        return;
+                    }
+//                    110   x+  y+  z-
+                    if (level.getBlock(x + x1,y + y1,z - z1).getId() != 0) {
+                        entity.move((double)x1,(double)y1,(double)-z1);
+                        return;
+                    }
+//                    111   x+  y+  z-
+                    if (level.getBlock(x + x1,y + y1,z - z1).getId() != 0) {
+                        entity.move((double)x1,(double)y1,(double)-z1);
+                        return;
+                    }
+                }
+            }
+        }
+    }*/
 }
