@@ -8,10 +8,10 @@
 Obsidian - 黑曜石 - 检测玩家是否掉入虚空         */
 package name.Obsidian.Tasks;
 
-import cn.nukkit.Player;
 import cn.nukkit.Server;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Position;
+import cn.nukkit.player.Player;
 import cn.nukkit.scheduler.PluginTask;
 import com.larryTheCoder.ASkyBlock;
 import name.Obsidian.Obsidian;
@@ -29,7 +29,7 @@ public class playermove extends PluginTask {
 
     @Override
     public void onRun(int i) {
-        Map<UUID, Player> players = Server.getInstance().getOnlinePlayers();
+/*        Map<UUID, Player> players = Server.getInstance().getOnlinePlayers();
         //遍历在线玩家
         for (Player player : players.values()) {
             if ((player != null) && (player.getFloorY() <= 0)) {
@@ -49,11 +49,11 @@ public class playermove extends PluginTask {
                     player.sendMessage("§a[虚空保护]：已将您拉回主世界！");
                 }
             }
-        }
+        }*/
     }
 
     private boolean tpisland(Player player, Level level) {
-        int x = player.getFloorX();
+/*        int x = player.getFloorX();
         int z = player.getFloorZ();
         //丧心病狂的扫描，这次总不会漏掉了吧
         //建筑建那么高？那您还是回主空岛去吧
@@ -105,7 +105,7 @@ public class playermove extends PluginTask {
                 }
             }
         }
-        player.sendMessage("§a[虚空保护]：附近没有空岛,已将您拉回主空岛！");
+        player.sendMessage("§a[虚空保护]：附近没有空岛,已将您拉回主空岛！");*/
         return false;
     }
 }

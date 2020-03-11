@@ -12,6 +12,7 @@ import cn.nukkit.block.Block;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.scheduler.AsyncTask;
+import name.Obsidian.Obsidian;
 
 public class asyncLeaves extends AsyncTask {
 
@@ -23,10 +24,10 @@ public class asyncLeaves extends AsyncTask {
 
     @Override
     public void onRun() {
-        if (this.block.getName().contains("Leaves")) {
-            int x = this.block.getFloorX();
-            int y = this.block.getFloorY();
-            int z = this.block.getFloorZ();
+        if (this.block.getId().getName().contains("Leaves")) {
+            int x = this.block.getX();
+            int y = this.block.getY();
+            int z = this.block.getZ();
             Level level = this.block.getLevel();
             //以方块为中心，扫描周边八个 7X9X7 的方形区块
             //也就是 长14 宽14 高18的长方形范围
@@ -34,27 +35,27 @@ public class asyncLeaves extends AsyncTask {
                 for (int x1=0; x1<7; x1++) {
                     for (int z1=0; z1<7; z1++) {
 //                    000   x-  y-   z-
-                        if (level.getBlock(x - x1,y - y1,z - z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y - y1,z - z1).getId().getName().contains("Leaves")) {return;}
 //                    001   x-  y-  z+
-                        if (level.getBlock(x - x1,y - y1,z + z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y - y1,z + z1).getId().getName().contains("Leaves")) {return;}
 //                    010   x-  y+  z-
-                        if (level.getBlock(x - x1,y + y1,z - z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y + y1,z - z1).getId().getName().contains("Leaves")) {return;}
 //                    011   x-  y+  z+
-                        if (level.getBlock(x - x1,y + y1,z + z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y + y1,z + z1).getId().getName().contains("Leaves")) {return;}
 //                    100   x+  y-  z-
-                        if (level.getBlock(x + x1,y - y1,z - z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y - y1,z - z1).getId().getName().contains("Leaves")) {return;}
 //                    101   x+  y-  z+
-                        if (level.getBlock(x + x1,y - y1,z + z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y - y1,z + z1).getId().getName().contains("Leaves")) {return;}
 //                    110   x+  y+  z-
-                        if (level.getBlock(x + x1,y + y1,z - z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y + y1,z - z1).getId().getName().contains("Leaves")) {return;}
 //                    111   x+  y+  z+
-                        if (level.getBlock(x + x1,y + y1,z + z1).getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y + y1,z + z1).getId().getName().contains("Leaves")) {return;}
                     }
                 }
             }
             //判断树叶类型，并掉落树苗
             //这随机的子ID是什么玩意o(╥﹏╥)o害得我检查了半天
-            if (this.block.getId() == 18) {
+            /*if (this.block.getId() == 18) {
                 switch (this.block.getDamage()){
                     //橡树叶
                     case 0:
@@ -81,7 +82,8 @@ public class asyncLeaves extends AsyncTask {
                 level.dropItem(this.block, Item.get(6,4));
             }else if ((this.block.getDamage() == 1) || (this.block.getDamage() == 5)) { //深色橡木叶
                 level.dropItem(this.block, Item.get(6,5));
-            }
+            }*/
+            Obsidian.get().getLogger().info("触发树叶扫描");
         }
     }
 }
