@@ -122,7 +122,8 @@ public class OB_Listener implements Listener {
         if (Obsidian.get().getSMBD() &&
                 (event.getBlock() != null) &&
                 Obsidian.get().changeLeaves(event.getBlock(), false) &&
-                (event.getPlayer().getGamemode() == 0)) {
+                (event.getPlayer().getGamemode() == 0) &&
+                (event.getBlock().getName().contains("Leaves"))) {
             Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new asyncLeaves(event.getBlock()));
         }
     }
