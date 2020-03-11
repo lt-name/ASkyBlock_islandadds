@@ -9,8 +9,10 @@ Obsidian - 黑曜石 - 扫描树叶附近                 */
 package name.Obsidian.Tasks;
 
 import cn.nukkit.block.Block;
+import cn.nukkit.block.BlockIds;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
+import cn.nukkit.registry.ItemRegistry;
 import cn.nukkit.scheduler.AsyncTask;
 import name.Obsidian.Obsidian;
 
@@ -18,13 +20,13 @@ public class asyncLeaves extends AsyncTask {
 
     private Block block;
 
-    public asyncLeaves( Block block) {
+    public asyncLeaves(Block block) {
         this.block = block;
     }
 
     @Override
     public void onRun() {
-        if (this.block.getId().getName().contains("Leaves")) {
+        if (this.block.getId().getName().contains("leaves")) {
             int x = this.block.getX();
             int y = this.block.getY();
             int z = this.block.getZ();
@@ -35,55 +37,54 @@ public class asyncLeaves extends AsyncTask {
                 for (int x1=0; x1<7; x1++) {
                     for (int z1=0; z1<7; z1++) {
 //                    000   x-  y-   z-
-                        if (level.getBlock(x - x1,y - y1,z - z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y - y1,z - z1).getId().getName().contains("leaves")) {return;}
 //                    001   x-  y-  z+
-                        if (level.getBlock(x - x1,y - y1,z + z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y - y1,z + z1).getId().getName().contains("leaves")) {return;}
 //                    010   x-  y+  z-
-                        if (level.getBlock(x - x1,y + y1,z - z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y + y1,z - z1).getId().getName().contains("leaves")) {return;}
 //                    011   x-  y+  z+
-                        if (level.getBlock(x - x1,y + y1,z + z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x - x1,y + y1,z + z1).getId().getName().contains("leaves")) {return;}
 //                    100   x+  y-  z-
-                        if (level.getBlock(x + x1,y - y1,z - z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y - y1,z - z1).getId().getName().contains("leaves")) {return;}
 //                    101   x+  y-  z+
-                        if (level.getBlock(x + x1,y - y1,z + z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y - y1,z + z1).getId().getName().contains("leaves")) {return;}
 //                    110   x+  y+  z-
-                        if (level.getBlock(x + x1,y + y1,z - z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y + y1,z - z1).getId().getName().contains("leaves")) {return;}
 //                    111   x+  y+  z+
-                        if (level.getBlock(x + x1,y + y1,z + z1).getId().getName().contains("Leaves")) {return;}
+                        if (level.getBlock(x + x1,y + y1,z + z1).getId().getName().contains("leaves")) {return;}
                     }
                 }
             }
             //判断树叶类型，并掉落树苗
             //这随机的子ID是什么玩意o(╥﹏╥)o害得我检查了半天
-            /*if (this.block.getId() == 18) {
+            if (this.block.getId() == BlockIds.LEAVES) {
                 switch (this.block.getDamage()){
                     //橡树叶
                     case 0:
                     case 4:
-                        level.dropItem(this.block, Item.get(6,0));
+                        level.dropItem(this.block, Item.get(ItemRegistry.get().fromLegacy(6),0));
                         break;
                     //云杉叶
                     case 1:
                     case 5:
-                        level.dropItem(this.block, Item.get(6,1));
+                        level.dropItem(this.block, Item.get(ItemRegistry.get().fromLegacy(6),1));
                         break;
                     //桦木叶
                     case 2:
                     case 6:
-                        level.dropItem(this.block, Item.get(6,2));
+                        level.dropItem(this.block, Item.get(ItemRegistry.get().fromLegacy(6),2));
                         break;
                     //从林木叶
                     case 3:
                     case 7:
-                        level.dropItem(this.block, Item.get(6,3));
+                        level.dropItem(this.block, Item.get(ItemRegistry.get().fromLegacy(6),3));
                         break;
                 }
             }else if ((this.block.getDamage() == 0) || (this.block.getDamage() == 4)) {  //合金欢叶
-                level.dropItem(this.block, Item.get(6,4));
+                level.dropItem(this.block, Item.get(ItemRegistry.get().fromLegacy(6),4));
             }else if ((this.block.getDamage() == 1) || (this.block.getDamage() == 5)) { //深色橡木叶
-                level.dropItem(this.block, Item.get(6,5));
-            }*/
-            Obsidian.get().getLogger().info("触发树叶扫描");
+                level.dropItem(this.block, Item.get(ItemRegistry.get().fromLegacy(6),5));
+            }
         }
     }
 }

@@ -21,7 +21,9 @@ import cn.nukkit.item.Item;
 import cn.nukkit.item.ItemIds;
 import cn.nukkit.level.Level;
 import cn.nukkit.player.Player;
+import cn.nukkit.plugin.Plugin;
 import cn.nukkit.registry.BlockRegistry;
+import cn.nukkit.registry.ItemRegistry;
 import name.Obsidian.Tasks.asyncLeaves;
 import name.Obsidian.Tasks.delayGiveLava;
 import name.Obsidian.Obsidian;
@@ -42,7 +44,7 @@ public class OB_Listener implements Listener {
                         return;
                     }
                     block.getLevel().setBlock(block,Block.get(BlockRegistry.get().getNameFromLegacyId(0)));
-                    player.getInventory().removeItem(Item.get(325, 0));
+                    player.getInventory().removeItem(Item.get(ItemRegistry.get().fromLegacy(325), 0));
                     Server.getInstance().getScheduler().scheduleDelayedTask(new delayGiveLava(player), 5);
                 }
             }
@@ -135,7 +137,6 @@ public class OB_Listener implements Listener {
     public void OnBPE(BlockPlaceEvent event) {
         if (Obsidian.get().getSMBD()) {
             Block block = event.getBlock();
-//            block.getId()
             if ((block != null) && block.getId().getName().contains("Leaves")) {
                 Obsidian.get().changeLeaves(block, true);
             }
