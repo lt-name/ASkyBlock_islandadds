@@ -14,7 +14,6 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.registry.ItemRegistry;
 import cn.nukkit.scheduler.AsyncTask;
-import name.Obsidian.Obsidian;
 
 public class asyncLeaves extends AsyncTask {
 
