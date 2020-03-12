@@ -12,7 +12,10 @@ import cn.nukkit.block.Block;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
-import name.Obsidian.Listener.OB_Listener;
+import name.Obsidian.Listener.ERSListener;
+import name.Obsidian.Listener.oresListener;
+import name.Obsidian.Listener.leavesListener;
+import name.Obsidian.Listener.liquidListener;
 import name.Obsidian.Tasks.playermove;
 import java.util.ArrayList;
 
@@ -27,18 +30,34 @@ public class Obsidian extends PluginBase {
         this.config = getConfig();
         this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
         Obsidian = this;
-        getServer().getPluginManager().registerEvents(new OB_Listener(), this);
-        if (this.config.getBoolean("虚空保护", true)){
+        //黑曜石还原岩浆
+        if (getOR()) {
+            getServer().getPluginManager().registerEvents(new oresListener(), this);
+        }
+        //禁止高空流水
+        if (getWFW()) {
+            getServer().getPluginManager().registerEvents(new liquidListener(), this);
+        }
+        //树苗掉落
+        if (getSMBD()) {
+            getServer().getPluginManager().registerEvents(new leavesListener(), this);
+        }
+        //虚空保护
+        if (getXKP()) {
             //异步检测玩家移动
             getServer().getScheduler().scheduleDelayedRepeatingTask(
-                    new playermove(this,this.config.getInt("虚空保护模式", 1)), 20, 3, true);
+                    new playermove(this, getXKPM()), 20, 3, true);
         }
-        getServer().getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
+        //错误的刷石机
+        if (getERS()) {
+            getServer().getPluginManager().registerEvents(new ERSListener(), this);
+        }
+        getServer().getLogger().info(TextFormat.GREEN + "[Obsidian] 加载完成！");
     }
 
     @Override
     public void onDisable() {
-        getServer().getLogger().info(TextFormat.RED+"[Obsidian] 已卸载！");
+        getServer().getLogger().info(TextFormat.RED + "[Obsidian] 已卸载！");
     }
 
     public boolean changeLeaves(Block block, boolean add) {
@@ -86,6 +105,14 @@ public class Obsidian extends PluginBase {
 
     public boolean getSMBD() {
         return this.config.getBoolean("树苗掉落保底",true);
+    }
+
+    public boolean getXKP() {
+        return  this.config.getBoolean("虚空保护", true);
+    }
+
+    public int getXKPM() {
+        return  this.config.getInt("虚空保护模式", 1);
     }
 
 }

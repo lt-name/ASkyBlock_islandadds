@@ -38,6 +38,8 @@ public class playermove extends PluginTask {
                         ASkyBlock.get().inIslandWorld(player)) {
                     //模式选择 1-直接拉回主岛 2-扫描附近空岛
                     if (this.mode == 2) {
+                        //先向上传送100格防止二次触发
+                        player.move(0, 100, 0);
                         if (tpisland(player, level)) { continue; }
                     } else {
                         player.sendMessage("§a[虚空保护]：已将您拉回主空岛！");
@@ -106,6 +108,7 @@ public class playermove extends PluginTask {
             }
         }
         player.sendMessage("§a[虚空保护]：附近没有空岛,已将您拉回主空岛！");
+        ASkyBlock.get().getGrid().homeTeleport(player);
         return false;
     }
 }
