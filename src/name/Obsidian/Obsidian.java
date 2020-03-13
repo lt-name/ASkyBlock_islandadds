@@ -12,11 +12,10 @@ import cn.nukkit.block.Block;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
-import name.Obsidian.Listener.ERSListener;
-import name.Obsidian.Listener.oresListener;
-import name.Obsidian.Listener.leavesListener;
-import name.Obsidian.Listener.liquidListener;
+import name.Obsidian.Listener.*;
 import name.Obsidian.Tasks.playermove;
+import updata.AutoData;
+
 import java.util.ArrayList;
 
 public class Obsidian extends PluginBase {
@@ -26,10 +25,16 @@ public class Obsidian extends PluginBase {
 
     @Override
     public void onEnable() {
+        Obsidian = this;
+        if (getServer().getPluginManager().getPlugin("AutoUpData") != null) {
+            getLogger().info(TextFormat.YELLOW + " 检查更新中");
+            if (AutoData.defaultUpData(this, getFile(), "lt-name", "Obsidian")) {
+                return;
+            }
+        }
         saveDefaultConfig();
         this.config = getConfig();
         this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
-        Obsidian = this;
         //黑曜石还原岩浆
         if (getOR()) {
             getServer().getPluginManager().registerEvents(new oresListener(), this);
@@ -47,6 +52,7 @@ public class Obsidian extends PluginBase {
             //异步检测玩家移动
             getServer().getScheduler().scheduleDelayedRepeatingTask(
                     new playermove(this, getXKPM()), 20, 3, true);
+            //getServer().getPluginManager().registerEvents(new moveListener(), this);
         }
         //错误的刷石机
         if (getERS()) {
