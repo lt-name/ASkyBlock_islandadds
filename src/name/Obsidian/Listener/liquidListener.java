@@ -9,15 +9,15 @@ Obsidian - 黑曜石 - 液体流动监听器              */
 package name.Obsidian.Listener;
 
 import cn.nukkit.event.EventHandler;
+import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.LiquidFlowEvent;
 import name.Obsidian.Obsidian;
 
 public class liquidListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
     public void OnLFE(LiquidFlowEvent event) {
-        if (event.isCancelled()) { return; }
         //禁止高空流水
         if (event.getTo() == null) { return; }
         int x = event.getTo().getFloorX();

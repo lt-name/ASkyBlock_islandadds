@@ -8,10 +8,14 @@
 Obsidian - 黑曜石                              */
 package name.Obsidian;
 
+import cn.nukkit.Player;
 import cn.nukkit.block.Block;
+import cn.nukkit.level.Level;
+import cn.nukkit.level.Position;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
+import com.larryTheCoder.ASkyBlock;
 import name.Obsidian.Listener.*;
 import name.Obsidian.Tasks.playermove;
 import updata.AutoData;
@@ -49,10 +53,12 @@ public class Obsidian extends PluginBase {
         }
         //虚空保护
         if (getXKP()) {
-            //异步检测玩家移动
-            getServer().getScheduler().scheduleDelayedRepeatingTask(
-                    new playermove(this, getXKPM()), 20, 3, true);
-            //getServer().getPluginManager().registerEvents(new moveListener(), this);
+            if (getXKPA()) {
+                getServer().getScheduler().scheduleDelayedRepeatingTask(
+                        new playermove(this, getXKPM()), 20, 3, true);
+            }else {
+                getServer().getPluginManager().registerEvents(new moveListener(), this);
+            }
         }
         //错误的刷石机
         if (getERS()) {
@@ -118,7 +124,69 @@ public class Obsidian extends PluginBase {
     }
 
     public int getXKPM() {
-        return  this.config.getInt("虚空保护模式", 1);
+        return  this.config.getInt("虚空保护模式", 2);
+    }
+
+    public boolean getXKPA() {
+        return this.config.getBoolean("虚空保护异步检测", true);
+    }
+
+    public boolean tpisland(Player player, Level level) {
+        int x = player.getFloorX();
+        int z = player.getFloorZ();
+        //丧心病狂的扫描，这次总不会漏掉了吧
+        //建筑建那么高？那您还是回主空岛去吧
+        for (int y1 = 200; y1 > 0; --y1) {
+            for (int x1 = 0; x1 < 40; ++x1) {
+                for (int z1 = 0; z1 < 40; ++z1) {
+                    //获取合适的落脚点，岩浆和水当然不行
+                    if ((level.getBlock(x - x1, y1, z - z1).getId() != 0) &&
+                            (!level.getBlock(x - x1, y1, z - z1).getName().contains("Water")) &&
+                            (!level.getBlock(x - x1, y1, z - z1).getName().contains("Lava"))) {
+                        //还得防止传送到墙里
+                        if ((level.getBlock(x - x1, y1 + 1, z - z1).getId() == 0) &&
+                                (level.getBlock(x - x1, y1 + 2, z - z1).getId() == 0)) {
+                            player.teleport(new Position(x - x1, y1 + 1, z - z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                    if ((level.getBlock(x - x1, y1, z + z1).getId() != 0) &&
+                            (!level.getBlock(x - x1, y1, z + z1).getName().contains("Water")) &&
+                            (!level.getBlock(x - x1, y1, z + z1).getName().contains("Lava"))) {
+                        if ((level.getBlock(x - x1, y1 + 1, z + z1).getId() == 0) &&
+                                (level.getBlock(x - x1, y1 + 2, z + z1).getId() == 0)) {
+                            player.teleport(new Position(x - x1, y1 + 1, z + z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                    if ((level.getBlock(x + x1, y1, z - z1).getId() != 0) &&
+                            (!level.getBlock(x + x1, y1, z - z1).getName().contains("Water")) &&
+                            (!level.getBlock(x + x1, y1, z - z1).getName().contains("Lava"))) {
+                        if ((level.getBlock(x + x1, y1 + 1, z - z1).getId() == 0) &&
+                                (level.getBlock(x + x1, y1 + 2, z - z1).getId() == 0)) {
+                            player.teleport(new Position(x + x1, y1 + 1, z - z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                    if ((level.getBlock(x + x1, y1, z + z1).getId() != 0) &&
+                            (!level.getBlock(x + x1, y1, z + z1).getName().contains("Water")) &&
+                            (!level.getBlock(x + x1, y1, z + z1).getName().contains("Lava"))) {
+                        if ((level.getBlock(x + x1, y1 + 1, z + z1).getId() == 0) &&
+                                (level.getBlock(x + x1, y1 + 2, z + z1).getId() == 0)) {
+                            player.teleport(new Position(x + x1, y1 + 1, z + z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        player.sendMessage("§a[虚空保护]：附近没有空岛,已将您拉回主空岛！");
+        ASkyBlock.get().getGrid().homeTeleport(player);
+        return false;
     }
 
 }
