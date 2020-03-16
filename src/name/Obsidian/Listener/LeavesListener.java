@@ -15,15 +15,15 @@ import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.block.BlockPlaceEvent;
 import cn.nukkit.event.block.LeavesDecayEvent;
 import name.Obsidian.Obsidian;
-import name.Obsidian.Tasks.asyncLeaves;
+import name.Obsidian.Tasks.AsyncLeaves;
 
-public class leavesListener implements Listener {
+public class LeavesListener implements Listener {
 
     @EventHandler
     public void onLDE(LeavesDecayEvent event) {
         Block block = event.getBlock();
         if ((block != null) && Obsidian.get().changeLeaves(block, false)) {
-            Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new asyncLeaves(block));
+            Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new AsyncLeaves(block));
         }
     }
 
@@ -34,7 +34,7 @@ public class leavesListener implements Listener {
                 (event.getBlock().getName().contains("Leaves")) &&
                 Obsidian.get().changeLeaves(event.getBlock(), false) &&
                 (event.getPlayer().getGamemode() == 0)) {
-            Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new asyncLeaves(block));
+            Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new AsyncLeaves(block));
         }
     }
 

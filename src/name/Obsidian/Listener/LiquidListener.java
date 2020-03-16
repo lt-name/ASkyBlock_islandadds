@@ -14,7 +14,7 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.LiquidFlowEvent;
 import name.Obsidian.Obsidian;
 
-public class liquidListener implements Listener {
+public class LiquidListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
     public void OnLFE(LiquidFlowEvent event) {

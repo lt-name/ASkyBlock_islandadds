@@ -17,7 +17,7 @@ import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
 import com.larryTheCoder.ASkyBlock;
 import name.Obsidian.Listener.*;
-import name.Obsidian.Tasks.playermove;
+import name.Obsidian.Tasks.PlayerMove;
 import updata.AutoData;
 
 import java.util.ArrayList;
@@ -41,23 +41,23 @@ public class Obsidian extends PluginBase {
         this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
         //黑曜石还原岩浆
         if (getOR()) {
-            getServer().getPluginManager().registerEvents(new oresListener(), this);
+            getServer().getPluginManager().registerEvents(new OresListener(), this);
         }
         //禁止高空流水
         if (getWFW()) {
-            getServer().getPluginManager().registerEvents(new liquidListener(), this);
+            getServer().getPluginManager().registerEvents(new LiquidListener(), this);
         }
         //树苗掉落
         if (getSMBD()) {
-            getServer().getPluginManager().registerEvents(new leavesListener(), this);
+            getServer().getPluginManager().registerEvents(new LeavesListener(), this);
         }
         //虚空保护
         if (getXKP()) {
             if (getXKPA()) {
                 getServer().getScheduler().scheduleDelayedRepeatingTask(
-                        new playermove(this, getXKPM()), 20, 3, true);
+                        new PlayerMove(this, getXKPM()), 20, 3, true);
             }else {
-                getServer().getPluginManager().registerEvents(new moveListener(), this);
+                getServer().getPluginManager().registerEvents(new MoveListener(), this);
             }
         }
         //错误的刷石机

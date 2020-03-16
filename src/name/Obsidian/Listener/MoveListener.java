@@ -10,7 +10,7 @@ import cn.nukkit.level.Position;
 import com.larryTheCoder.ASkyBlock;
 import name.Obsidian.Obsidian;
 
-public class moveListener implements Listener {
+public class MoveListener implements Listener {
 
     @EventHandler
     public void onPMV(PlayerMoveEvent event) {

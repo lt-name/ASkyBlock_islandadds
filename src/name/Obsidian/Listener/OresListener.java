@@ -9,17 +9,16 @@ Obsidian - 黑曜石 - 黑曜石还原岩浆               */
 package name.Obsidian.Listener;
 
 import cn.nukkit.Player;
-import cn.nukkit.Server;
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockAir;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
-import name.Obsidian.Tasks.delayGiveLava;
+import name.Obsidian.Tasks.DelayGiveLava;
 import name.Obsidian.Obsidian;
 
-public class oresListener implements Listener {
+public class OresListener implements Listener {
 
     @EventHandler
     public void onInt(PlayerInteractEvent event) {
@@ -35,7 +34,7 @@ public class oresListener implements Listener {
                 }
                 block.getLevel().setBlock(block,new BlockAir());
                 player.getInventory().removeItem(Item.get(325, 0));
-                Obsidian.get().getServer().getScheduler().scheduleDelayedTask(new delayGiveLava(player), 5);
+                Obsidian.get().getServer().getScheduler().scheduleDelayedTask(new DelayGiveLava(player), 5);
             }
         }
     }

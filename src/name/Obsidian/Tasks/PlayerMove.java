@@ -18,11 +18,11 @@ import name.Obsidian.Obsidian;
 import java.util.Map;
 import java.util.UUID;
 
-public class playermove extends PluginTask<Obsidian> {
+public class PlayerMove extends PluginTask<Obsidian> {
 
     private int mode;
 
-    public playermove (Obsidian owner, int mode) {
+    public PlayerMove(Obsidian owner, int mode) {
         super(owner);
         this.mode = mode;
     }
