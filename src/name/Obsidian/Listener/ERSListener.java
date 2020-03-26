@@ -10,7 +10,7 @@ import name.Obsidian.Obsidian;
 public class ERSListener implements Listener {
 
     @EventHandler
-    public void OnBUP(BlockUpdateEvent event) {
+    public void onBUP(BlockUpdateEvent event) {
         //允许错误的刷石机
         if (Obsidian.get().getERS()) {
             Block block = event.getBlock();

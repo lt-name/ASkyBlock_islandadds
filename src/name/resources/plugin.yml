@@ -1,6 +1,6 @@
 name: Obsidian
 main: name.Obsidian.Obsidian
-version: "1.0.7"
+version: "1.0.8"
 api:
   - 1.0.0
 load: POSTWORLD

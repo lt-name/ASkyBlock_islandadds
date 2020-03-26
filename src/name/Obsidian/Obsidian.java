@@ -15,9 +15,7 @@ import cn.nukkit.level.Position;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
-import com.larryTheCoder.ASkyBlock;
 import name.Obsidian.Listener.*;
-import name.Obsidian.Tasks.PlayerMove;
 import updata.AutoData;
 
 import java.util.ArrayList;
@@ -53,12 +51,7 @@ public class Obsidian extends PluginBase {
         }
         //虚空保护
         if (getXKP()) {
-            if (getXKPA()) {
-                getServer().getScheduler().scheduleDelayedRepeatingTask(
-                        new PlayerMove(this, getXKPM()), 20, 3, true);
-            }else {
-                getServer().getPluginManager().registerEvents(new MoveListener(), this);
-            }
+            getServer().getPluginManager().registerEvents(new DamageListener(), this);
         }
         //错误的刷石机
         if (getERS()) {
@@ -127,10 +120,6 @@ public class Obsidian extends PluginBase {
         return  this.config.getInt("虚空保护模式", 2);
     }
 
-    public boolean getXKPA() {
-        return this.config.getBoolean("虚空保护异步检测", true);
-    }
-
     public boolean tpisland(Player player, Level level) {
         int x = player.getFloorX();
         int z = player.getFloorZ();
@@ -184,8 +173,6 @@ public class Obsidian extends PluginBase {
                 }
             }
         }
-        player.sendMessage("§a[虚空保护]：附近没有空岛,已将您拉回主空岛！");
-        ASkyBlock.get().getGrid().homeTeleport(player);
         return false;
     }
 
