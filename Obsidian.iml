@@ -8,7 +8,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Nukkit2.0-b92" level="project" />
     <orderEntry type="library" name="[汉化]SkyBlock_v0.4.8-ALPHA15" level="project" />
+    <orderEntry type="library" name="Nukkit2.0_b104" level="project" />
   </component>
 </module>

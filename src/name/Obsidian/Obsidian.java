@@ -12,9 +12,11 @@ import cn.nukkit.block.Block;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
-import name.Obsidian.Listener.OB_Listener;
-import name.Obsidian.Tasks.playermove;
+import name.Obsidian.Listener.*;
+//import updata.AutoData;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class Obsidian extends PluginBase {
 
@@ -23,29 +25,48 @@ public class Obsidian extends PluginBase {
 
     @Override
     public void onEnable() {
+        Obsidian = this;
+/*        if (getServer().getPluginManager().getPlugin("AutoUpData") != null) {
+            getLogger().info(TextFormat.YELLOW + " 检查更新中");
+            if (AutoData.defaultUpData(this, getFile(), "lt-name", "Obsidian")) {
+                return;
+            }
+        }*/
         saveDefaultConfig();
         this.config = getConfig();
         this.Leaves = new Config(getDataFolder() + "/Leaves.yml", 2);
-        Obsidian = this;
-        getServer().getPluginManager().registerEvents(new OB_Listener(), this);
-/*        if (this.config.getBoolean("虚空保护", true)){
-            //异步检测玩家移动
-            getServer().getScheduler().scheduleDelayedRepeatingTask(
-                    new playermove(this,this.config.getInt("虚空保护模式", 1)), 20, 3, true);
-        }*/
-
-        getLogger().info(TextFormat.GREEN+"[Obsidian] 加载完成！");
+        //黑曜石还原岩浆
+        if (getOR()) {
+            getServer().getPluginManager().registerEvents(new OresListener(), this);
+        }
+        //禁止高空流水
+        if (getWFW()) {
+            getServer().getPluginManager().registerEvents(new LiquidListener(), this);
+        }
+        //树苗掉落
+        if (getSMBD()) {
+            getServer().getPluginManager().registerEvents(new LeavesListener(), this);
+        }
+        //虚空保护
+        if (getXKP()) {
+            getServer().getPluginManager().registerEvents(new DamageListener(), this);
+        }
+        //错误的刷石机
+        if (getERS()) {
+            getServer().getPluginManager().registerEvents(new ERSListener(), this);
+        }
+        getLogger().info(TextFormat.GREEN + " 加载完成！");
     }
 
     @Override
     public void onDisable() {
-        getLogger().info(TextFormat.RED+"[Obsidian] 已卸载！");
+        getLogger().info(TextFormat.RED + " 已卸载！");
     }
 
     public boolean changeLeaves(Block block, boolean add) {
         //此函数参考若水的CreateBlock插件（已获得授权）
         String s = block.getX() + ":" + block.getY() + ":" + block.getZ() + ":" + block.getLevel().getName();
-        ArrayList<String> list = new ArrayList<>(this.Leaves.getStringList("Leaves"));
+        List<String> list = this.Leaves.getStringList("Leaves");
         if (add) {
             list.add(s);
             this.Leaves.set("Leaves", list);
@@ -88,5 +109,70 @@ public class Obsidian extends PluginBase {
     public boolean getSMBD() {
         return this.config.getBoolean("树苗掉落保底",true);
     }
+
+    public boolean getXKP() {
+        return  this.config.getBoolean("虚空保护", true);
+    }
+
+    public int getXKPM() {
+        return  this.config.getInt("虚空保护模式", 2);
+    }
+
+/*目前2.0没有空岛插件，暂时注释掉
+    public boolean tpisland(Player player, Level level) {
+        int x = (int) player.getX();
+        int z = (int) player.getZ();
+        //丧心病狂的扫描，这次总不会漏掉了吧
+        //建筑建那么高？那您还是回主空岛去吧
+        for (int y1 = 200; y1 > 0; --y1) {
+            for (int x1 = 0; x1 < 40; ++x1) {
+                for (int z1 = 0; z1 < 40; ++z1) {
+                    //获取合适的落脚点，岩浆和水当然不行
+                    if ((level.getBlock(x - x1, y1, z - z1).getId() != 0) &&
+                            (!level.getBlock(x - x1, y1, z - z1).getName().contains("Water")) &&
+                            (!level.getBlock(x - x1, y1, z - z1).getName().contains("Lava"))) {
+                        //还得防止传送到墙里
+                        if ((level.getBlock(x - x1, y1 + 1, z - z1).getId() == 0) &&
+                                (level.getBlock(x - x1, y1 + 2, z - z1).getId() == 0)) {
+                            player.teleport(new Position(x - x1, y1 + 1, z - z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                    if ((level.getBlock(x - x1, y1, z + z1).getId() != 0) &&
+                            (!level.getBlock(x - x1, y1, z + z1).getName().contains("Water")) &&
+                            (!level.getBlock(x - x1, y1, z + z1).getName().contains("Lava"))) {
+                        if ((level.getBlock(x - x1, y1 + 1, z + z1).getId() == 0) &&
+                                (level.getBlock(x - x1, y1 + 2, z + z1).getId() == 0)) {
+                            player.teleport(new Position(x - x1, y1 + 1, z + z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                    if ((level.getBlock(x + x1, y1, z - z1).getId() != 0) &&
+                            (!level.getBlock(x + x1, y1, z - z1).getName().contains("Water")) &&
+                            (!level.getBlock(x + x1, y1, z - z1).getName().contains("Lava"))) {
+                        if ((level.getBlock(x + x1, y1 + 1, z - z1).getId() == 0) &&
+                                (level.getBlock(x + x1, y1 + 2, z - z1).getId() == 0)) {
+                            player.teleport(new Position(x + x1, y1 + 1, z - z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                    if ((level.getBlock(x + x1, y1, z + z1).getId() != 0) &&
+                            (!level.getBlock(x + x1, y1, z + z1).getName().contains("Water")) &&
+                            (!level.getBlock(x + x1, y1, z + z1).getName().contains("Lava"))) {
+                        if ((level.getBlock(x + x1, y1 + 1, z + z1).getId() == 0) &&
+                                (level.getBlock(x + x1, y1 + 2, z + z1).getId() == 0)) {
+                            player.teleport(new Position(x + x1, y1 + 1, z + z1, level));
+                            player.sendMessage("§a[虚空保护]：已将您拉回最近的空岛！");
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }*/
 
 }
