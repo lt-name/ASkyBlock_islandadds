@@ -1,4 +1,4 @@
-package name.Obsidian.Listener;
+package name.obsidian.listener;
 
 import cn.nukkit.Player;
 import cn.nukkit.Server;
@@ -7,7 +7,7 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.event.entity.EntityDamageEvent;
 import cn.nukkit.level.Level;
 import com.larryTheCoder.ASkyBlock;
-import name.Obsidian.Obsidian;
+import name.obsidian.Obsidian;
 
 public class DamageListener implements Listener {
 

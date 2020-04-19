@@ -6,7 +6,7 @@
   \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
 
 Obsidian - 黑曜石 - 延迟给岩浆                   */
-package name.Obsidian.Tasks;
+package name.obsidian.tasks;
 
 import cn.nukkit.Player;
 import cn.nukkit.item.Item;

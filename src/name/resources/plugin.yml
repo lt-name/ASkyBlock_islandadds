@@ -1,5 +1,5 @@
 name: Obsidian
-main: name.Obsidian.Obsidian
+main: name.obsidian.Obsidian
 version: "1.0.8"
 api:
   - 1.0.0

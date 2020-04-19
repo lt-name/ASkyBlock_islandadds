@@ -6,7 +6,7 @@
   \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
 
 Obsidian - 黑曜石 - 扫描树叶附近                 */
-package name.Obsidian.Tasks;
+package name.obsidian.tasks;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.item.Item;

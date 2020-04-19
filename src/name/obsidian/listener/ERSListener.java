@@ -1,11 +1,11 @@
-package name.Obsidian.Listener;
+package name.obsidian.listener;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockUpdateEvent;
 import cn.nukkit.level.Level;
-import name.Obsidian.Obsidian;
+import name.obsidian.Obsidian;
 
 public class ERSListener implements Listener {
 
@@ -26,7 +26,7 @@ public class ERSListener implements Listener {
                 }
                 if(level.getBlock(x+1, y, z).getId() == 8){
                     level.setBlock(level.getBlock(x+1, y, z),Block.get(4));
-                    block.getLevel().setBlock(block,Block.get(10));
+                    level.setBlock(block,Block.get(10));
                     return;
                 }
                 if(level.getBlock(x, y, z-1).getId() == 8){

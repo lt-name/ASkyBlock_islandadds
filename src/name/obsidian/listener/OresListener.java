@@ -6,7 +6,7 @@
   \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
 
 Obsidian - 黑曜石 - 黑曜石还原岩浆               */
-package name.Obsidian.Listener;
+package name.obsidian.listener;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
@@ -15,8 +15,8 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
-import name.Obsidian.Tasks.DelayGiveLava;
-import name.Obsidian.Obsidian;
+import name.obsidian.tasks.DelayGiveLava;
+import name.obsidian.Obsidian;
 
 public class OresListener implements Listener {
 

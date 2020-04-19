@@ -6,7 +6,7 @@
   \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
 
 Obsidian - 黑曜石                              */
-package name.Obsidian;
+package name.obsidian;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
@@ -15,7 +15,7 @@ import cn.nukkit.level.Position;
 import cn.nukkit.plugin.PluginBase;
 import cn.nukkit.utils.Config;
 import cn.nukkit.utils.TextFormat;
-import name.Obsidian.Listener.*;
+import name.obsidian.listener.*;
 import updata.AutoData;
 
 import java.util.ArrayList;

@@ -6,13 +6,13 @@
   \___/ |_ __/ |___/|_| \__ _||_| \__ _||_| |_|
 
 Obsidian - 黑曜石 - 液体流动监听器              */
-package name.Obsidian.Listener;
+package name.obsidian.listener;
 
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.LiquidFlowEvent;
-import name.Obsidian.Obsidian;
+import name.obsidian.Obsidian;
 
 public class LiquidListener implements Listener {
 
