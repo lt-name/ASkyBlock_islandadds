@@ -22,8 +22,12 @@ import java.util.ArrayList;
 
 public class Obsidian extends PluginBase {
 
-    private Config config,Leaves;
+    public static final String VERSION = "?";
+
     private static Obsidian Obsidian;
+
+    private Config config, Leaves;
+
 
     @Override
     public void onEnable() {

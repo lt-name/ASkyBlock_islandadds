@@ -13,9 +13,12 @@ import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.scheduler.AsyncTask;
 
+/**
+ * @author lt_name
+ */
 public class AsyncLeaves extends AsyncTask {
 
-    private Block block;
+    private final Block block;
 
     public AsyncLeaves(Block block) {
         this.block = block;

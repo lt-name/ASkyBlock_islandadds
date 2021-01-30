@@ -8,6 +8,7 @@
 Obsidian - 黑曜石 - 树叶掉落保底功能监听器       */
 package name.obsidian.listener;
 
+import cn.nukkit.Server;
 import cn.nukkit.block.Block;
 import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
@@ -23,7 +24,7 @@ public class LeavesListener implements Listener {
     public void onLDE(LeavesDecayEvent event) {
         Block block = event.getBlock();
         if ((block != null) && Obsidian.get().changeLeaves(block, false)) {
-            Obsidian.get().getServer().getScheduler().scheduleAsyncTask(Obsidian.get(), new AsyncLeaves(block));
+            Server.getInstance().getScheduler().scheduleAsyncTask(Obsidian.get(), new AsyncLeaves(block));
         }
     }
 

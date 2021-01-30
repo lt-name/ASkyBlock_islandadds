@@ -17,7 +17,7 @@ import name.obsidian.Obsidian;
 public class LiquidListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR,ignoreCancelled = true)
-    public void OnLFE(LiquidFlowEvent event) {
+    public void onLFE(LiquidFlowEvent event) {
         //禁止高空流水
         if (event.getTo() == null) { return; }
         int x = event.getTo().getFloorX();

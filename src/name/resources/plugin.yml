@@ -1,9 +1,0 @@
-name: Obsidian
-main: name.obsidian.Obsidian
-version: "1.0.8"
-api:
-  - 1.0.0
-load: POSTWORLD
-author: lt_name
-loadbefore:
-  - AutoUpData
